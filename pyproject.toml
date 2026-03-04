@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "polish-text-normalizer"
+version = "1.0.0"
+description = "Polish text normalizer — expands numbers, currencies, dates, abbreviations, and more into spoken Polish. Pure Python, zero dependencies."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Clawdia Szczypiec" }]
+keywords = ["polish", "text", "normalizer", "tts", "nlp", "preprocessing"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Text Processing :: Linguistic",
+    "Natural Language :: Polish",
+]
+
+[project.urls]
+Repository = "https://github.com/clawdia-bot/polish-text-normalizer"
+
+[tool.setuptools.packages.find]
+where = ["src"]
