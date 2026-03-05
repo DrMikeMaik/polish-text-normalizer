@@ -70,6 +70,27 @@ number_to_words(42)
 # → "czterdzieści dwa"
 ```
 
+## TTS Example
+
+The normalizer was built for TTS preprocessing. The only freely available local Polish TTS model is [Coqui VITS](https://github.com/coqui-ai/TTS) (`tts_models/pl/mai_female/vits`) — a single female voice, BSD-3-Clause licensed, runs on CPU at ~0.5x real-time.
+
+See [`examples/tts_coqui.py`](examples/tts_coqui.py) for a complete text-to-WAV script:
+
+```bash
+pip install polish-text-normalizer TTS soundfile numpy torch
+
+# Demo (shows normalization + generates audio)
+python examples/tts_coqui.py
+
+# Your own text
+python examples/tts_coqui.py "Dr Nowak zapłacił 3,50 zł o godz. 13:45."
+
+# From file
+python examples/tts_coqui.py -f artykul.txt -o artykul.wav
+```
+
+The script handles normalization, chunking (the model has a ~150 char limit), and concatenation with natural pauses between sentences.
+
 ## Tests
 
 ```bash
