@@ -9,7 +9,7 @@ Built for TTS preprocessing, but useful anywhere you need Polish text in spoken 
 ## Installation
 
 ```bash
-git clone https://github.com/clawdia-bot/polish-text-normalizer.git
+git clone https://github.com/DrMikeMaik/polish-text-normalizer.git
 cd polish-text-normalizer
 poetry install
 ```

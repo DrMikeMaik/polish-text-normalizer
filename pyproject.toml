@@ -16,7 +16,7 @@ classifiers = [
 packages = [{ include = "polish_text_normalizer", from = "src" }]
 
 [tool.poetry.urls]
-Repository = "https://github.com/clawdia-bot/polish-text-normalizer"
+Repository = "https://github.com/DrMikeMaik/polish-text-normalizer"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
