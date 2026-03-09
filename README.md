@@ -2,9 +2,9 @@
 
 Converts Polish text into its spoken form. Numbers, currencies, dates, times, abbreviations, Roman numerals, phone numbers, emails, URLs, and special characters — all expanded into natural Polish words with correct grammar (cases, genders, plural forms).
 
-**Pure Python. Zero dependencies. Just regex and grammar rules.**
+**Pure Python. Just regex and grammar rules.**
 
-Built for TTS preprocessing, but useful anywhere you need Polish text in spoken form.
+Built for TTS preprocessing with [Coqui VITS](https://github.com/coqui-ai/TTS). The normalizer itself is pure Python — TTS dependencies (torch, coqui-tts, etc.) are included for the complete text-to-speech workflow.
 
 ## Installation
 
