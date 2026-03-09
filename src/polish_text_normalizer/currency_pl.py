@@ -9,6 +9,7 @@ Converts currency patterns to spoken Polish forms:
 """
 
 import re
+from typing import Optional
 from .num2words_pl import number_to_words
 
 
@@ -82,7 +83,7 @@ _CURRENCY_BEFORE = re.compile(
 def expand_currencies(text: str) -> str:
     """Expand currency patterns in Polish text to spoken forms."""
 
-    def _expand(amount_str: str, currency_key: str) -> str:
+    def _expand(amount_str: str, currency_key: str) -> Optional[str]:
         currency_key = currency_key.lower()
         if currency_key not in CURRENCIES:
             return None

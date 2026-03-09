@@ -92,7 +92,7 @@ pip install pytest
 python -m pytest tests/
 ```
 
-310 tests covering all modules plus integration tests for pipeline ordering edge cases.
+305 tests covering all modules plus integration tests for pipeline ordering edge cases.
 
 ## License
 

@@ -147,20 +147,6 @@ def _match_case(original: str, replacement: str) -> str:
     return replacement
 
 
-def _is_title_context(abbrev: str, after: str) -> bool:
-    """Check if abbreviation is used as a title (followed by capitalized name)."""
-    return bool(after and after[0].isupper())
-
-
-# Feminine forms for titles when followed by female context
-# (simplified — full gender detection would need NLP)
-FEMININE_FORMS: dict[str, str] = {
-    "święty": "święta",
-    "błogosławiony": "błogosławiona",
-    "doktor": "doktor",  # same in Polish for both genders as title
-    "profesor": "profesor",
-}
-
 
 def expand_abbreviations(text: str) -> str:
     """Expand Polish abbreviations in text to full forms.
