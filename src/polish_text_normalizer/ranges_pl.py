@@ -52,10 +52,7 @@ def expand_ranges(text: str) -> str:
         prefix = m.group(1) or ""
         a = int(m.group(2))
         b = int(m.group(3))
-
-        # Check if this is really a range (b > a) — otherwise leave it
-        # Actually, ranges like 16-8 are unusual but valid (countdown).
-        # Let's be permissive and always expand digit-hyphen-digit.
+        pct = m.group(4) or ""
 
         # Check preceding context for hour words
         text_before = text[:m.start()] + prefix
@@ -67,13 +64,14 @@ def expand_ranges(text: str) -> str:
         # Default: cardinal range
         a_word = number_to_words(a)
         b_word = number_to_words(b)
-        return f"{prefix}od {a_word} do {b_word}"
+        suffix = " procent" if pct else ""
+        return f"{prefix}od {a_word} do {b_word}{suffix}"
 
-    # Match: optional whitespace-prefix + digits + hyphen + digits
+    # Match: optional whitespace-prefix + digits + hyphen + digits + optional %
     # Negative lookbehind for digit/letter to avoid matching inside words
     # The (\s*) captures any space before the first number for context checking
     return re.sub(
-        r'(?<![a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\d])(\s*)(\d+)-(\d+)(?!\d)',
+        r'(?<![a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\d])(\s*)(\d+)-(\d+)(%?)(?!\d)',
         _replace,
         text,
     )

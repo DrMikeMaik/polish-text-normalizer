@@ -116,8 +116,9 @@ def expand_special_chars(text: str) -> str:
         text,
     )
 
-    # 2. Handle percent (already in num2words but might appear standalone)
-    # Actually % is handled by num2words_pl already — skip
+    # 2. Handle standalone percent sign (not preceded by a digit — those are
+    #    handled by num2words_pl or ranges_pl)
+    text = re.sub(r'(?<!\d)%', 'procent', text)
 
     # 3. Handle section symbol with number: § 5, §5
     text = re.sub(

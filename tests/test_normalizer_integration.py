@@ -210,3 +210,46 @@ class TestEdgeCases:
         assert "pięć" in result
         # Should not have nested expansions
         assert result.count("paragraf") == 1
+
+
+class TestBugFixes:
+    """Regression tests for bugs found via demo_input.txt."""
+
+    def test_kom_not_expanded(self):
+        # "kom." is ambiguous (komisarz vs komórkowy) — should stay unexpanded
+        result = normalize_polish_text("kom. 512 345 678")
+        assert "komisarz" not in result
+
+    def test_email_pl_not_plac(self):
+        # ".pl" in email/URL must not be expanded to "plac"
+        result = normalize_polish_text("biuro@uniwersytet.edu.pl")
+        assert "plac" not in result
+        assert "kropka pl" in result
+
+    def test_url_pl_not_plac(self):
+        result = normalize_polish_text("www.uni.edu.pl/wyniki")
+        assert "plac" not in result
+        assert "kropka pl" in result
+
+    def test_grouped_numbers_currency(self):
+        # "2 500 000 zł" — space-grouped number with currency
+        result = normalize_polish_text("2 500 000 zł")
+        assert "dwa miliony pięćset tysięcy złotych" in result
+
+    def test_grouped_numbers_bare(self):
+        result = normalize_polish_text("ok. 2 500 000 osób")
+        assert "dwa miliony pięćset tysięcy" in result
+
+    def test_grouped_numbers_dollars(self):
+        result = normalize_polish_text("$650 000")
+        assert "sześćset pięćdziesiąt tysięcy dolarów" in result
+
+    def test_range_percent(self):
+        # "45-55%" — range with trailing percent
+        result = normalize_polish_text("45-55%")
+        assert "od czterdzieści pięć do pięćdziesiąt pięć procent" in result
+
+    def test_phone_not_collapsed(self):
+        # Phone "512 345 678" must not be collapsed into one big number
+        result = normalize_polish_text("512 345 678")
+        assert "pięć jeden dwa" in result

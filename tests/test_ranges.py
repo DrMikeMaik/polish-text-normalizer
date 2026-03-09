@@ -80,6 +80,20 @@ class TestMultipleRanges:
         assert "od osiemnaście do dwadzieścia dwa" in result
 
 
+class TestPercentRanges:
+    def test_percent_appended(self):
+        assert expand_ranges("45-55%") == "od czterdzieści pięć do pięćdziesiąt pięć procent"
+
+    def test_percent_in_sentence(self):
+        result = expand_ranges("wynik 10-20% populacji")
+        assert "od dziesięć do dwadzieścia procent" in result
+
+    def test_no_percent_without_symbol(self):
+        # No trailing % → no "procent"
+        result = expand_ranges("10-20")
+        assert "procent" not in result
+
+
 class TestEdgeCases:
     def test_same_number(self):
         result = expand_ranges("5-5")

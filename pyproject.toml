@@ -1,34 +1,39 @@
-[build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "polish-text-normalizer"
 version = "1.0.0"
 description = "Polish text normalizer — expands numbers, currencies, dates, abbreviations, and more into spoken Polish. Pure Python, zero dependencies."
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.9"
-authors = [{ name = "Clawdia Szczypiec" }]
+authors = ["Clawdia Szczypiec"]
 keywords = ["polish", "text", "normalizer", "tts", "nlp", "preprocessing"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Topic :: Text Processing :: Linguistic",
     "Natural Language :: Polish",
 ]
+packages = [{ include = "polish_text_normalizer", from = "src" }]
 
-[project.urls]
+[tool.poetry.urls]
 Repository = "https://github.com/clawdia-bot/polish-text-normalizer"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+coqui-tts = ">=0.27"
+soundfile = "*"
+numpy = "*"
+torch = ">=2.0,<3"
+torchaudio = ">=2.0,<3"
+transformers = "<5"
+torchcodec = "^0.10.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -38,7 +38,6 @@ ABBREVIATIONS: dict[str, str] = {
     "ppor": "podporucznik",
     "sierż": "sierżant",
     "szer": "szeregowy",
-    "kom": "komisarz",
 
     # Address / location
     "ul": "ulica",

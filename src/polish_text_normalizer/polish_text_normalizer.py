@@ -17,6 +17,8 @@ This is the single entry point for TTS text preprocessing.
 Import `normalize_polish_text` instead of calling individual modules.
 """
 
+import re
+
 from .abbreviations_pl import expand_abbreviations
 from .currency_pl import expand_currencies
 from .roman_numerals_pl import expand_roman_numerals
@@ -24,37 +26,56 @@ from .dates_pl import expand_dates
 from .time_pl import expand_times
 from .ranges_pl import expand_ranges
 from .phone_numbers_pl import expand_phone_numbers
-from .emails_urls_pl import expand_emails_urls
+from .emails_urls_pl import expand_emails_urls, restore_placeholders
 from .special_chars_pl import expand_special_chars
 from .num2words_pl import preprocess_numbers
+
+# Matches space-separated digit groups like "2 500 000" or "12 345"
+_GROUPED_NUMBER_RE = re.compile(r'\b(\d{1,3})((?:\s\d{3})+)\b')
+
+
+def _collapse_grouped_numbers(text: str) -> str:
+    """Collapse space-separated digit groups into contiguous numbers.
+
+    "2 500 000" → "2500000", "12 345" → "12345".
+    Only collapses when the pattern is unambiguous (1-3 leading digits
+    followed by groups of exactly 3 digits separated by single spaces).
+    """
+    def _join(m: re.Match) -> str:
+        return m.group(1) + m.group(2).replace(" ", "")
+
+    return _GROUPED_NUMBER_RE.sub(_join, text)
 
 
 def normalize_polish_text(text: str) -> str:
     """Normalize Polish text for TTS synthesis.
-    
+
     Order matters:
-    - Emails/URLs first (before dots/symbols get mangled by other steps)
-    - Abbreviations second (so "ok. 50 zł" becomes "około 50 zł", not mangled)
-    - Currencies third (so "50 zł" becomes "pięćdziesiąt złotych" before
-      the number converter strips the context)
-    - Roman numerals fourth (before generic number conversion)
-    - Dates fifth (27.02.2026 before dots get mangled by number converter)
-    - Times sixth (13:45 before the colon gets mangled)
-    - Phone numbers seventh (before ranges strip the digit groups)
-    - Ranges eighth (8-16 before hyphen becomes "minus")
-    - Special chars ninth (§, °, math ops, brackets — after structured patterns extracted)
+    - Phone numbers first (before grouped-number collapsing eats digit groups)
+    - Collapse grouped numbers (2 500 000 → 2500000, after phones extracted)
+    - Emails/URLs (before dots/symbols get mangled; uses placeholders)
+    - Abbreviations (so "ok. 50 zł" becomes "około 50 zł", not mangled)
+    - Currencies (so "50 zł" becomes "pięćdziesiąt złotych")
+    - Roman numerals (before generic number conversion)
+    - Dates (27.02.2026 before dots get mangled)
+    - Times (13:45 before the colon gets mangled)
+    - Ranges (8-16 before hyphen becomes "minus")
+    - Special chars (§, °, math ops, brackets — after structured patterns)
     - Numbers last (catches any remaining digits)
+    - Restore email/URL placeholders (swap back spoken forms)
     """
+    text = expand_phone_numbers(text)
+    text = _collapse_grouped_numbers(text)
     text = expand_emails_urls(text)
     text = expand_abbreviations(text)
     text = expand_currencies(text)
     text = expand_roman_numerals(text)
     text = expand_dates(text)
     text = expand_times(text)
-    text = expand_phone_numbers(text)
     text = expand_ranges(text)
     text = expand_special_chars(text)
     text = preprocess_numbers(text)
+    text = restore_placeholders(text)
     return text
 
 
