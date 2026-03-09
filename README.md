@@ -11,8 +11,10 @@ Built for TTS preprocessing, but useful anywhere you need Polish text in spoken 
 ```bash
 git clone https://github.com/clawdia-bot/polish-text-normalizer.git
 cd polish-text-normalizer
-pip install .
+poetry install
 ```
+
+Requires Python 3.10–3.11 (Coqui TTS constraint). Poetry will create a virtualenv and install all dependencies including TTS.
 
 ## Usage
 
@@ -71,16 +73,14 @@ The normalizer was built for TTS preprocessing. The only freely available local 
 See [`examples/tts_coqui.py`](examples/tts_coqui.py) for a complete text-to-WAV script:
 
 ```bash
-pip install polish-text-normalizer TTS soundfile numpy torch
-
 # Demo (shows normalization + generates audio)
-python examples/tts_coqui.py
+poetry run python examples/tts_coqui.py
 
 # Your own text
-python examples/tts_coqui.py "Dr Nowak zapłacił 3,50 zł o godz. 13:45."
+poetry run python examples/tts_coqui.py "Dr Nowak zapłacił 3,50 zł o godz. 13:45."
 
 # From file
-python examples/tts_coqui.py -f artykul.txt -o artykul.wav
+poetry run python examples/tts_coqui.py -f input.txt -o output/output.wav
 ```
 
 The script handles normalization, chunking (the model has a ~150 char limit), and concatenation with natural pauses between sentences.
@@ -88,8 +88,7 @@ The script handles normalization, chunking (the model has a ~150 char limit), an
 ## Tests
 
 ```bash
-pip install pytest
-python -m pytest tests/
+poetry run pytest
 ```
 
 316 tests covering all modules plus integration tests for pipeline ordering edge cases.
