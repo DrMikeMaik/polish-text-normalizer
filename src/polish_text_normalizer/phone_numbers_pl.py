@@ -6,7 +6,6 @@ Converts phone number patterns to digit-by-digit spoken Polish:
 - 512 345 678 → "pięć jeden dwa, trzy cztery pięć, sześć siedem osiem"
 - 512-345-678 → same
 - (22) 123 45 67 → "dwadzieścia dwa, jeden dwa trzy, cztery pięć, sześć siedem"
-- 112, 997, 998, 999 → read as numbers (emergency)
 
 Digit groups are separated by commas for natural TTS pausing.
 """
@@ -31,11 +30,6 @@ COUNTRY_CODE_WORDS = {
     "420": "czterysta dwadzieścia",
     "421": "czterysta dwadzieścia jeden",
 }
-
-# Emergency & short service numbers (read as whole numbers)
-from .num2words_pl import number_to_words
-
-EMERGENCY_NUMBERS = {"112", "997", "998", "999", "116000", "116111", "116123"}
 
 
 def _digits_to_words(digits: str) -> str:

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "polish-text-normalizer"
 version = "1.0.0"
-description = "Polish text normalizer — expands numbers, currencies, dates, abbreviations, and more into spoken Polish. Pure Python, zero dependencies."
+description = "Polish text normalizer — expands numbers, currencies, dates, abbreviations, and more into spoken Polish for TTS preprocessing."
 readme = "README.md"
 license = "MIT"
 authors = ["Clawdia Szczypiec"]

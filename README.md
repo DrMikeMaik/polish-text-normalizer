@@ -20,7 +20,7 @@ pip install .
 from polish_text_normalizer import normalize
 
 normalize("Dr Nowak, ul. Długa 15, godz. 8-16.")
-# → "doktor Nowak, ulica Długa piętnaście, godziny od osiem do szesnaście."
+# → "Doktor Nowak, ulica Długa piętnaście, godzina od ósmej do szesnastej."
 
 normalize("Cena: 5,99 zł za sztukę, tj. ok. $2.")
 # → "Cena: pięć złotych dziewięćdziesiąt dziewięć groszy za sztukę, to jest około dwa dolary."
@@ -29,7 +29,7 @@ normalize("Jan III Sobieski rządził w XVII wieku.")
 # → "Jan trzeci Sobieski rządził w siedemnastym wieku."
 
 normalize("Spotkanie 14:00-15:30 w sali 5.")
-# → "Spotkanie czternasta zero zero do piętnastu trzydzieści w sali pięć."
+# → "Spotkanie od czternastej do piętnastej trzydzieści w sali pięć."
 ```
 
 ## Modules
@@ -38,13 +38,13 @@ The normalizer chains these steps in order (order matters — each step's output
 
 | Module | What it does |
 |--------|-------------|
+| `phone_numbers_pl` | `512 345 678` → `pięć jeden dwa, trzy cztery pięć, sześć siedem osiem` |
 | `emails_urls_pl` | `jan@x.pl` → `jan małpa x kropka pl` |
 | `abbreviations_pl` | `dr` → `doktor`, `np.` → `na przykład` (80+ abbreviations) |
 | `currency_pl` | `5,99 zł` → `pięć złotych dziewięćdziesiąt dziewięć groszy` (PLN/EUR/USD/GBP/CHF/CZK) |
 | `roman_numerals_pl` | `XVII wiek` → `siedemnasty wiek` (context-aware: centuries, monarchs) |
 | `dates_pl` | `27.02.2026` → `dwudziestego siódmego lutego dwa tysiące dwudziestego szóstego` |
 | `time_pl` | `13:45` → `trzynasta czterdzieści pięć` (feminine ordinals, time ranges) |
-| `phone_numbers_pl` | `512 345 678` → `pięć jeden dwa, trzy cztery pięć, sześć siedem osiem` |
 | `ranges_pl` | `8-16` → `od osiem do szesnaście` (hour-context-aware) |
 | `special_chars_pl` | `§ 5`, `20°C`, `→`, math operators, brackets, ©, ®, ™ |
 | `num2words_pl` | `42` → `czterdzieści dwa` (cardinals, ordinals, decimals, percentages) |
@@ -92,7 +92,7 @@ pip install pytest
 python -m pytest tests/
 ```
 
-305 tests covering all modules plus integration tests for pipeline ordering edge cases.
+316 tests covering all modules plus integration tests for pipeline ordering edge cases.
 
 ## License
 

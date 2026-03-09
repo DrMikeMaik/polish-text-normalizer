@@ -5,10 +5,6 @@ Converts standalone symbols and special characters to their spoken Polish forms.
 Handles: math operators, brackets, common symbols, punctuation marks that need
 to be vocalized rather than treated as silence.
 
-This runs BEFORE emails/URLs in the pipeline (so we don't mangle @ in emails)
-— actually no, it runs AFTER emails/URLs (emails already converted to words),
-and AFTER most other steps, but BEFORE final number conversion.
-
 Position in pipeline: after ranges, before numbers.
 By this point, emails/URLs/currencies/etc. are already expanded to words,
 so we only catch leftover symbols in running text.
@@ -57,35 +53,6 @@ SYMBOL_MAP = {
     '↓': 'strzałka w dół',
     '⇒': 'wynika',
 }
-
-# Bracket pairs — expand to opening/closing words
-BRACKET_OPEN = {
-    '(': '',   # natural pause, TTS handles parentheses as pauses
-    '[': '',
-    '{': '',
-}
-BRACKET_CLOSE = {
-    ')': '',
-    ']': '',
-    '}': '',
-}
-
-
-def _expand_math_expression(match: re.Match) -> str:
-    """Expand a simple math expression like 2+3=5 or a<b."""
-    text = match.group(0)
-    result = []
-    i = 0
-    while i < len(text):
-        ch = text[i]
-        if ch in SYMBOL_MAP:
-            word = SYMBOL_MAP[ch]
-            if word:
-                result.append(f' {word} ')
-        else:
-            result.append(ch)
-        i += 1
-    return ''.join(result)
 
 
 def expand_special_chars(text: str) -> str:
