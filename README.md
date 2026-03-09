@@ -11,10 +11,16 @@ Built for TTS preprocessing with [Coqui VITS](https://github.com/coqui-ai/TTS). 
 ```bash
 git clone https://github.com/DrMikeMaik/polish-text-normalizer.git
 cd polish-text-normalizer
+
+# Option 1: Light (Normalizer only, no ML dependencies)
 poetry install
+
+# Option 2: Full (Includes local TTS model stack: torch, coqui-tts, etc.)
+poetry install --extras tts
 ```
 
-Requires Python 3.10–3.11 (Coqui TTS constraint). Poetry will create a virtualenv and install all dependencies including TTS.
+Requires **Python 3.10–3.11** (due to Coqui TTS compatibility constraints).
+The core normalizer itself is extremely lightweight (< 1MB), while the `tts` stack is ~2GB.
 
 ## Usage
 

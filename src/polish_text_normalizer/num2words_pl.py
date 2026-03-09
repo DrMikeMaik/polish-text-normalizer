@@ -246,10 +246,26 @@ def _decimal_to_words(s: str) -> str:
     try:
         parts = s.split('.')
         integer_part = number_to_words(int(parts[0]))
-        # Fractional part: read as integer (3.14 → "trzy przecinek czternaście")
+
+        # Handle fractional part, preserving leading zeros
         frac_str = parts[1]
-        frac_int = int(frac_str)
-        fractional_part = number_to_words(frac_int)
-        return f"{integer_part} przecinek {fractional_part}"
+        if not frac_str:
+            return integer_part
+
+        leading_zeros_count = len(frac_str) - len(frac_str.lstrip('0'))
+        zeros_prefix = " ".join(["zero"] * leading_zeros_count)
+
+        remaining_frac = frac_str.lstrip('0')
+        if not remaining_frac:
+            # All zeros case: "3.00" -> "trzy przecinek zero zero"
+            return f"{integer_part} przecinek {zeros_prefix}"
+
+        fractional_words = number_to_words(int(remaining_frac))
+
+        if zeros_prefix:
+            return f"{integer_part} przecinek {zeros_prefix} {fractional_words}"
+        return f"{integer_part} przecinek {fractional_words}"
+
     except (ValueError, IndexError):
         return s
+
